@@ -1,0 +1,56 @@
+
+
+nezl0i@swift:~$ mysqldump -u root -p -h 127.0.0.1 example > example.sql
+Enter password: 
+nezl0i@swift:~$ ls
+ example.sql                  pt            'VirtualBox VMs'                 Изображения
+
+
+nezl0i@swift:~$ mysql -u root -p -h 127.0.0.1
+Enter password: 
+mysql> CREATE DATABASE sample;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> \q
+Bye
+nezl0i@swift:~$ mysql -u root -p -h 127.0.0.1 sample < example.sql
+Enter password: 
+
+nezl0i@swift:~$ mysql -u root -p -h 127.0.0.1
+Enter password: 
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| example            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sample             |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+
+mysql> \u sample
+Database changed
+
+mysql> DESCRIBE users;
++-------+-----------------+------+-----+---------+----------------+
+| Field | Type            | Null | Key | Default | Extra          |
++-------+-----------------+------+-----+---------+----------------+
+| id    | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(50)     | YES  |     | NULL    |                |
++-------+-----------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> show tables;
++------------------+
+| Tables_in_sample |
++------------------+
+| users            |
++------------------+
+1 row in set (0.01 sec)
+
+mysql> 
