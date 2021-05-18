@@ -1,0 +1,15 @@
+SELECT 
+communities.name, -- имя группы
+(COUNT(communities_users.user_id) / COUNT(DISTINCT communities_users.community_id)) AS avg_users,
+MAX(profiles.birthday) OVER (PARTITION BY communities_users.user_id) AS small_user,
+MIN(profiles.birthday) OVER (PARTITION BY communities_users.user_id) AS big_user,
+COUNT(users.id) OVER () AS total
+	FROM  communities
+	left JOIN communities_users
+		ON communities.id = communities_users.community_id
+	left JOIN profiles 
+		ON profiles.user_id = communities_users.community_id
+	left JOIN users
+		ON users.id = communities_users.community_id
+	left JOIN users
+		ON users.id = communities_users.user_id;
